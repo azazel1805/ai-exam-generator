@@ -29,40 +29,40 @@ try{
     }
 
     const distributions = [
-      "Q1-5: Vocabulary (Noun, Verb, Adj, Adv, Phrasal Verb)",
-      "Q6-10: Grammar (Tense, Modals, Passive, Conjunctions)",
-      "Q11-15: Cloze Test Passage 1 (1 passage, 5 blanks, 5 questions)",
-      "Q16-20: Cloze Test Passage 2 (1 passage, 5 blanks, 5 questions)",
-      "Q21-25: Sentence Completion Group 1",
-      "Q26-30: Sentence Completion Group 2",
-      "Q31-35: English-to-Turkish Translation",
-      "Q36-40: Turkish-to-English Translation",
-      "Q41-45: Reading Passage 1 (Passage + 5 questions)",
-      "Q46-50: Reading Passage 2 (Passage + 5 questions)",
-      "Q51-55: Reading Passage 3 (Passage + 5 questions)",
-      "Q56-60: Reading Passage 4 (Passage + 5 questions)",
-      "Q61-65: Dialogue Completion",
-      "Q66-70: Restatement / Closest Meaning",
-      "Q71-75: Paragraph Completion (Missing sentence)",
-      "Q76-80: Irrelevant Sentence (Odd one out)"
+      "Q1-5: Vocabulary - Must be embedded in complex academic sentences. NO definitions.",
+      "Q6-10: Grammar - Advanced structures (Inversion, Conditionals, Modals) in context.",
+      "Q11-15: Cloze Test Passage 1 - ONE cohesive academic paragraph with 5 numbered blanks (1-5), followed by 5 separate questions for those specific blanks.",
+      "Q16-20: Cloze Test Passage 2 - ONE cohesive academic paragraph with 5 numbered blanks (1-5), followed by 5 separate questions for those specific blanks.",
+      "Q21-25: Sentence Completion Group 1 - Logical and grammatical completion of complex sentences.",
+      "Q26-30: Sentence Completion Group 2.",
+      "Q31-35: English-to-Turkish Translation - Academic level sentences.",
+      "Q36-40: Turkish-to-English Translation.",
+      "Q41-45: Reading Passage 1 - A long academic text followed by 5 comprehension questions.",
+      "Q46-50: Reading Passage 2.",
+      "Q51-55: Reading Passage 3.",
+      "Q56-60: Reading Passage 4.",
+      "Q61-65: Dialogue Completion - Professional/Academic context dialogues.",
+      "Q66-70: Restatement / Closest Meaning - Sophisticated paraphrasing.",
+      "Q71-75: Paragraph Completion - Finding the logically missing sentence in a paragraph.",
+      "Q76-80: Irrelevant Sentence - Identifying the sentence that disrupts the scholarly flow."
     ]
 
     const batchInstruction = distributions[batch - 1] || "5 YDS Questions"
 
     const prompt = `
-Act as a Senior Examiner for the YDS (Foreign Language Proficiency Exam).
-Generate exactly 5 questions for: ${batchInstruction}
-Using this inspiration text/context: ${text}
+Act as a Senior YDS Examiner. Generate exactly 5 questions for: ${batchInstruction}
+Context/Inspiration: ${text}
 
-STRICT QUALITY RULES:
-1. DIFFICULTY: Questions must be C1-C2 level (Advanced Academic English).
-2. STYLE: Strictly resemble official YDS examiner style. Avoid "simple ESL quiz" or "high school level" patterns.
-3. VOCABULARY: Use high-level academic vocabulary (e.g., exacerbated, intertwined, resilient, proliferation, paradigm).
-4. DISTRACTORS: Options must be semantically and contextually close. A student must need deep reasoning to distinguish the correct answer.
-5. CONTEXT: Use formal, scholarly, or scientific tone only.
+STRICT ARCHITECTURAL RULES:
+1. NO DEFINITIONS: Never ask "What does X mean?" or "Which term refers to...". All questions MUST be embedded in context.
+2. VOCABULARY: Vocabulary must be tested within a scholarly, high-level academic sentence where the meaning is derived from context.
+3. CLOZE TEST FORMAT: You MUST provide ONE unified paragraph. Inside this paragraph, place five numbered blanks: (1), (2), (3), (4), and (5). After the paragraph, provide 5 questions, each corresponding to one of those numbers.
+4. READING FORMAT: Provide ONE academic passage, then 5 questions.
+5. LEVEL: C1-C2 Academic English only.
+6. DISTRACTORS: Must be semantically close and professionally confusing.
 
 Format: Return a JSON object with:
-"questions": array of objects, each containing { "type": "...", "question": "...", "choices": ["A) ", "B) ", ...], "answer": "A", "topic": "...", "difficulty": "YDS" }
+"questions": array of objects { "type": "...", "question": "...", "choices": ["A) ", "B) ", "C) ", "D) ", "E) "], "answer": "A", "topic": "...", "difficulty": "YDS" }
 "extractedText": exact string context provided above.`
 
     const completion = await openai.chat.completions.create({
