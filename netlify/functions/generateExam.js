@@ -24,6 +24,10 @@ try{
       text = pdfData.text.substring(0, 10000).replace(/[\r\n]+/g, " ")
     }
 
+    if (!text) {
+      text = "General Academic Topics: Environment, Technology, History, Sociology, Global Economics, Psychology, and Medical Advances."
+    }
+
     const distributions = [
       "Q1-5: Vocabulary (Noun, Verb, Adj, Adv, Phrasal Verb)",
       "Q6-10: Grammar (Tense, Modals, Passive, Conjunctions)",

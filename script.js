@@ -3,17 +3,14 @@ async function generate() {
     const resultDiv = document.getElementById("result");
     const downloadBtn = document.getElementById("download");
 
-    if (!file) {
-        alert("Upload PDF");
-        return;
+    let base64 = "";
+    if (file) {
+        const buffer = await file.arrayBuffer();
+        base64 = btoa(
+            new Uint8Array(buffer)
+                .reduce((data, byte) => data + String.fromCharCode(byte), '')
+        );
     }
-
-    resultDiv.textContent = "Processing PDF...";
-    const buffer = await file.arrayBuffer();
-    const base64 = btoa(
-        new Uint8Array(buffer)
-            .reduce((data, byte) => data + String.fromCharCode(byte), '')
-    );
 
     let allQuestions = [];
     const totalBatches = 16; // 16 batches of 5 = 80 questions
