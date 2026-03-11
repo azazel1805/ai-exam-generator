@@ -24,7 +24,8 @@ async function generate() {
         try {
             const res = await fetch("/api/generate", {
                 method: "POST",
-                body: base64
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ pdf: base64, batch: i })
             });
 
             if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
