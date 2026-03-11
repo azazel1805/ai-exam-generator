@@ -50,14 +50,20 @@ try{
     const batchInstruction = distributions[batch - 1] || "5 YDS Questions"
 
     const prompt = `
-Act as a YDS/YDT Examiner. Generate exactly 5 questions for: ${batchInstruction}
-Using this text as context: ${text}
+Act as a Senior Examiner for the YDS (Foreign Language Proficiency Exam).
+Generate exactly 5 questions for: ${batchInstruction}
+Using this inspiration text/context: ${text}
+
+STRICT QUALITY RULES:
+1. DIFFICULTY: Questions must be C1-C2 level (Advanced Academic English).
+2. STYLE: Strictly resemble official YDS examiner style. Avoid "simple ESL quiz" or "high school level" patterns.
+3. VOCABULARY: Use high-level academic vocabulary (e.g., exacerbated, intertwined, resilient, proliferation, paradigm).
+4. DISTRACTORS: Options must be semantically and contextually close. A student must need deep reasoning to distinguish the correct answer.
+5. CONTEXT: Use formal, scholarly, or scientific tone only.
 
 Format: Return a JSON object with:
-"questions": array of 5 objects (type, question, choices, answer, topic, difficulty)
-"extractedText": exact string context provided above.
-
-Standard: Academic level, professional distractors.`
+"questions": array of objects, each containing { "type": "...", "question": "...", "choices": ["A) ", "B) ", ...], "answer": "A", "topic": "...", "difficulty": "YDS" }
+"extractedText": exact string context provided above.`
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
