@@ -29,41 +29,66 @@ try{
     }
 
     const distributions = [
-      "BATCH 1: vocabulary (Must be a complex academic sentence with one blank. No definitions. Test high-level usage.)",
-      "BATCH 2: sentence_completion (Academic logic, causal/concessive structures, connector traps.)",
-      "BATCH 3: cloze (Provide ONE cohesive academic paragraph with markers (1), (2), (3), (4), (5). Then 5 questions for these markers.)",
-      "BATCH 4: cloze (Second set of ONE cohesive academic paragraph with markers (1)-(5).)",
-      "BATCH 5: sentence_completion (Advanced logical relationship testing.)",
-      "BATCH 6: translation (Complex academic text, professional style.)",
-      "BATCH 7: paraphrase (Sophisticated restatement of complex scholarly sentences.)",
-      "BATCH 8: closest_meaning (Subtle differences in meaning recognition.)",
-      "BATCH 9: Reading Passage 1 (Provide a 150-200 word academic text, then 5 deep comprehension questions.)",
-      "BATCH 10: Reading Passage 2 (Separate academic topic, 5 questions.)",
-      "BATCH 11: Reading Passage 3 (Separate academic topic, 5 questions.)",
-      "BATCH 12: Reading Passage 4 (Final academic topic, 5 questions.)",
-      "BATCH 13: dialogue_completion (Strictly 4 lines: A, B, A, then B: ________________. Logic-based.)",
-      "BATCH 14: paragraph_completion (Finding the logically missing sentence to maintain flow.)",
-      "BATCH 15: paraphrase / closest_meaning (Mixed advanced types.)",
-      "BATCH 16: irrelevant_sentence (Academic text where one sentence disrupts the logical coherence.)"
+      "BATCH 1: vocabulary (Complex academic sentences, no definitions.)",
+      "BATCH 2: sentence_completion (Advanced logic and coherence.)",
+      "BATCH 3: cloze (ONE unified academic paragraph with blanks (1), (2), (3), (4), (5). Questions 1-5 must refer to these.)",
+      "BATCH 4: cloze (Second unified academic paragraph with blanks (1), (2), (3), (4), (5).)",
+      "BATCH 5: sentence_completion (Emphasis on complex logical transitions.)",
+      "BATCH 6: translation (Complex academic sentences with multiple clauses and linkers.)",
+      "BATCH 7: paraphrase (Sophisticated semantic restatements.)",
+      "BATCH 8: closest_meaning (High-level equivalence testing.)",
+      "BATCH 9: reading (ONE substantial 200-word academic passage followed by 5 specific questions.)",
+      "BATCH 10: reading (ONE substantial 200-word academic passage followed by 5 specific questions.)",
+      "BATCH 11: reading (ONE substantial 200-word academic passage followed by 5 specific questions.)",
+      "BATCH 12: reading (ONE substantial 200-word academic passage followed by 5 specific questions.)",
+      "BATCH 13: dialogue_completion (Strictly: Person A, Person B, Person A, then Person B: ________________.)",
+      "BATCH 14: paragraph_completion (Finding the logically missing sentence.)",
+      "BATCH 15: closest_meaning / restatement (Mixed high-level questions.)",
+      "BATCH 16: irrelevant_sentence (Finding the sentence that ruins the academic flow.)"
     ]
 
     const batchInstruction = distributions[batch - 1] || "5 YDS Questions"
 
-    const prompt = `You are an expert YDS/ÖSYM examiner. Generate 5 questions for: ${batchInstruction}
+    const prompt = `You are a Senior YDS/ÖSYM Examiner. Generate exactly 5 questions for: ${batchInstruction}
 
-TECHNICAL SPECS:
-- LEVEL: C1-C2 Academic English. Use sophisticated vocabulary (e.g. 'unprecedented', 'attribute to', 'prevalent').
-- VOCABULARY: Must be a full, formal sentence with a blank. Do not ask for definitions.
-- CLOZE TEST: Provide a single paragraph. Insert numbers (1) to (5) in brackets. Questions MUST reference these numbers.
-- DIALOGUE: Provide 4 lines. Line 1 (A), Line 2 (B), Line 3 (A), Line 4 (B: ________________).
-- READING: Provide a substantial academic passage (Science, Arts, or History). Each of the 5 questions must relate to this same passage.
-- REASONING: Questions must require understanding of nuance, tone, or logical transition, not just word recognition.
+STRICT TECHNICAL TEMPLATES:
 
-Format: Return a JSON object with:
-"questions": [ { "type": "...", "question": "...", "choices": ["A) ", "B) ", "C) ", "D) ", "E) "], "answer": "A", "topic": "...", "difficulty": "YDS" } ],
-"extractedText": "See context below"
+1. CLOZE TEST: 
+   - [Question Field]: MUST start with the ONLY unified paragraph containing (1), (2), (3), (4), (5).
+   - Each of the 5 questions must contain this same paragraph followed by "Question (X):".
 
-CONTEXT: ${text.replace(/"/g, "'")}`
+2. DIALOGUE: 
+   - [Question Field]: Must be exactly:
+     A: [Complex Opening]
+     B: [Specific Response]
+     A: [Follow-up]
+     B: ________________
+
+3. READING: 
+   - [Question Field]: Provide a 200-word scholarship text (History/Science/Arts).
+   - Each of the 5 questions must include this text and then a unique comprehension question.
+
+4. TRANSLATION:
+   - Must use complex structures like 'Given that', 'Notwithstanding', 'Insofar as'. No simple sentences.
+
+5. QUALITY:
+   - Level: C1-C2 Academic.
+   - Distractors: Semantically very close. Requires logical deduction.
+
+JSON FORMAT:
+{
+  "questions": [
+    {
+      "type": "cloze | reading | dialogue | translation | closest_meaning | etc.",
+      "question": "PASSAGE/DIALOGUE CONTENT + THE SPECIFIC QUESTION",
+      "choices": ["A) ", "B) ", "C) ", "D) ", "E) "],
+      "answer": "Option letter or content",
+      "topic": "Academic subject",
+      "difficulty": "YDS (Hard)"
+    }
+  ],
+  "extractedText": "${text.replace(/"/g, "'")}"
+}`
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
