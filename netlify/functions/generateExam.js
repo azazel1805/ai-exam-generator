@@ -50,20 +50,24 @@ try{
     const batchInstruction = distributions[batch - 1] || "5 YDS Questions"
 
     const prompt = `
-Act as a Senior YDS Examiner. Generate exactly 5 questions for: ${batchInstruction}
-Context/Inspiration: ${text}
+Act as a Senior Examiner for the YDS (National English Exam). 
+Generate exactly 5 questions for: ${batchInstruction}
+Context: ${text}
 
 STRICT ARCHITECTURAL RULES:
-1. NO DEFINITIONS: Never ask "What does X mean?" or "Which term refers to...". All questions MUST be embedded in context.
-2. VOCABULARY: Vocabulary must be tested within a scholarly, high-level academic sentence where the meaning is derived from context.
-3. CLOZE TEST FORMAT: You MUST provide ONE unified paragraph. Inside this paragraph, place five numbered blanks: (1), (2), (3), (4), and (5). After the paragraph, provide 5 questions, each corresponding to one of those numbers.
-4. READING FORMAT: Provide ONE academic passage, then 5 questions.
-5. LEVEL: C1-C2 Academic English only.
-6. DISTRACTORS: Must be semantically close and professionally confusing.
+1. NO DEFINITIONS: Avoid "Which term refers to..." style. Vocab must be tested within complex, high-level academic sentences.
+2. CLOZE TEST: You MUST provide ONE UNIFIED PARAGRAPH. Place blanks as (1), (2), (3), (4), and (5) within that single paragraph. Then provide 5 separate questions for those blanks. Do NOT use single-sentence cloze.
+3. DIALOGUE FORMAT: Must be exactly 4 lines ending with a blank for the user to complete:
+   Person A: [Opening statement]
+   Person B: [Specific response]
+   Person A: [Follow-up or specific question]
+   Person B: ____________________
+4. LOGIC & COHERENCE: Focus on "logic-based completion", "connector traps" (deceptive conjunctions), and "paragraph coherence".
+5. VARIETY: Use C1-C2 level English only. Avoid duplicate sentence structures. Ensure distractors are semantically close.
 
-Format: Return a JSON object with:
-"questions": array of objects { "type": "...", "question": "...", "choices": ["A) ", "B) ", "C) ", "D) ", "E) "], "answer": "A", "topic": "...", "difficulty": "YDS" }
-"extractedText": exact string context provided above.`
+Format: Return JSON object with:
+"questions": [ { "type": "...", "question": "...", "choices": ["A) ", "B) ", "C) ", "D) ", "E) "], "answer": "A", "topic": "...", "difficulty": "YDS" } ],
+"extractedText": "${text}"`
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",

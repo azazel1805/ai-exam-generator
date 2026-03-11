@@ -1,5 +1,6 @@
 async function generate() {
     const file = document.getElementById("pdf").files[0];
+    const count = parseInt(document.getElementById("count").value);
     const resultDiv = document.getElementById("result");
     const downloadBtn = document.getElementById("download");
 
@@ -13,7 +14,7 @@ async function generate() {
     }
 
     let allQuestions = [];
-    const totalBatches = 16; // 16 batches of 5 = 80 questions
+    const totalBatches = count / 5; // count is 20, 40, or 80. batch size is 5.
     let extractedText = "";
 
     for (let i = 1; i <= totalBatches; i++) {

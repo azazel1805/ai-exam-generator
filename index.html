@@ -13,9 +13,14 @@
 
 <h1>AI Exam Generator</h1>
 
-<p>Upload a PDF for inspiration or leave empty for pure AI generation</p>
+<p>Select question count and upload PDF (optional)</p>
+<select id="count">
+  <option value="20">20 Questions</option>
+  <option value="40">40 Questions</option>
+  <option value="80" selected>80 Questions</option>
+</select>
 <input type="file" id="pdf">
-<button onclick="generate()">Generate Full YDS Exam (80 Questions)</button>
+<button onclick="generate()">Generate YDS Exam</button>
 
 <pre id="result"></pre>
 
