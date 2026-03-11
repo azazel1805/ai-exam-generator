@@ -16,31 +16,37 @@ async function generate() {
     );
 
     let allQuestions = [];
-    const totalBatches = 8; // 8 batches of 10 = 80 questions
+    const totalBatches = 16; // 16 batches of 5 = 80 questions
+    let extractedText = "";
 
     for (let i = 1; i <= totalBatches; i++) {
         resultDiv.textContent = `Generating questions... Batch ${i}/${totalBatches}`;
         
         try {
+            const body = { batch: i };
+            if (i === 1) {
+                body.pdf = base64; // Send PDF only on first batch
+            } else {
+                body.text = extractedText; // Send extracted text from previous response
+            }
+
             const res = await fetch("/api/generate", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ pdf: base64, batch: i })
+                body: JSON.stringify(body)
             });
 
             if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
             const data = await res.json();
             
-            // Check if response is the expected JSON object or array
-            let questions = data;
-            if (data.questions) questions = data.questions; // Handle if model wraps it in a "questions" key
-            if (!Array.isArray(questions)) {
-                // Occurs if model returns a single object containing the array
-                questions = Object.values(data).find(Array.isArray) || [];
+            // Update the source text from backend (received on first call or all calls)
+            if (data.extractedText) extractedText = data.extractedText;
+
+            if (data.questions && Array.isArray(data.questions)) {
+                allQuestions = allQuestions.concat(data.questions);
             }
 
-            allQuestions = allQuestions.concat(questions);
             resultDiv.textContent = JSON.stringify(allQuestions, null, 2);
         } catch (err) {
             console.error(err);
