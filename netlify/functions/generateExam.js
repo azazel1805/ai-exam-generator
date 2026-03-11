@@ -56,14 +56,11 @@ Context: ${text}
 
 STRICT ARCHITECTURAL RULES:
 1. NO DEFINITIONS: Avoid "Which term refers to..." style. Vocab must be tested within complex, high-level academic sentences.
-2. CLOZE TEST: You MUST provide ONE UNIFIED PARAGRAPH. Place blanks as (1), (2), (3), (4), and (5) within that single paragraph. Then provide 5 separate questions for those blanks. Do NOT use single-sentence cloze.
-3. DIALOGUE FORMAT: Must be exactly 4 lines ending with a blank for the user to complete:
-   Person A: [Opening statement]
-   Person B: [Specific response]
-   Person A: [Follow-up or specific question]
-   Person B: ____________________
-4. LOGIC & COHERENCE: Focus on "logic-based completion", "connector traps" (deceptive conjunctions), and "paragraph coherence".
-5. VARIETY: Use C1-C2 level English only. Avoid duplicate sentence structures. Ensure distractors are semantically close.
+2. LOGICAL REASONING: Questions MUST require logical reasoning. Avoid simple vocabulary recognition; the student must understand the relationship between ideas (cause-effect, contrast, concession) to find the answer.
+3. CLOZE TEST: You MUST provide ONE UNIFIED PARAGRAPH with blanks (1), (2), (3), (4), and (5). Do NOT use single-sentence cloze.
+4. DIALOGUE FORMAT: Exact 4-line exchange (A-B-A-B ----). The final response must logically complete the specific flow of the conversation.
+5. CONNECTOR TRAPS: Use deceptive conjunctions and focus on paragraph coherence. Distractors must be semantically close but logically flawed.
+6. VARIETY: C1-C2 level English. Avoid duplicate sentence structures. Formal, scholarly tone only.
 
 Format: Return JSON object with:
 "questions": [ { "type": "...", "question": "...", "choices": ["A) ", "B) ", "C) ", "D) ", "E) "], "answer": "A", "topic": "...", "difficulty": "YDS" } ],
