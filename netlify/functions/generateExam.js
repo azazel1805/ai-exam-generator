@@ -19,7 +19,7 @@ const pdfData = await pdf(buffer)
 
 const text = pdfData.text
 
-const prompt = `Based on the attached PDF text, generate 80 NEW YDS/YDT style English questions.
+const prompt = `Based on the attached PDF text, generate 10 NEW YDS/YDT style English questions.
     Rules: No copying, no slight modifications, original sentences only.
     Format: JSON array of objects with keys: question, choices[], answer, topic, difficulty.
     PDF TEXT: ${text.substring(0, 10000)}` // Limit input text to save tokens
