@@ -1,0 +1,8 @@
+{
+  "name": "ai-exam-generator",
+  "type": "module",
+  "dependencies": {
+    "openai": "^4.56.0",
+    "pdf-parse": "^1.1.1"
+  }
+}

@@ -1,0 +1,7 @@
+[build]
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/generate"
+  to = "/.netlify/functions/generateExam"
+  status = 200
